@@ -26,7 +26,59 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget"/>
+         <widget class="QTableWidget" name="tableWidget">
+          <property name="rowCount">
+           <number>5</number>
+          </property>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <column>
+           <property name="text">
+            <string>stock</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>type</string>
+           </property>
+           <property name="toolTip">
+            <string extracomment="buy/sell/amount"/>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>date</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>amount</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>price</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>price currency</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>sum</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>sum currency</string>
+           </property>
+          </column>
+         </widget>
         </item>
        </layout>
       </widget>
