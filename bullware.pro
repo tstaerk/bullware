@@ -19,5 +19,5 @@ FORMS    += mainwindow.ui
 
 desktop.path = /usr/share/applications
 desktop.files += bullware.desktop
-target.path = /usr/local/bin
+target.path = $$[QT_INSTALL_BINS]
 INSTALLS += target desktop
