@@ -17,5 +17,7 @@ HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
+desktop.path = /usr/share/applications
+desktop.files += bullware.desktop
 target.path = /usr/local/bin
-INSTALLS += target
+INSTALLS += target desktop

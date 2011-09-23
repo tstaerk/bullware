@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QFile>
+#include <QMessageBox>
 #include <QTableWidgetItem>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -15,17 +16,17 @@ MainWindow::~MainWindow()
 {
     QString filename("bullware.csv");
     QFile* file1=new QFile(filename);
-    int x;
     if (file1->open(QIODevice::WriteOnly))
     {
-
-        for (x=0; x<ui->tableWidget->columnCount(); ++x)
+        for (int x=0; x<ui->tableWidget->columnCount(); ++x)
         {
-            file1->write(ui->tableWidget->item(0,x)->text().toAscii());
-            qDebug() << x << endl;
-            qDebug() << ui->tableWidget->item(0,x)->text().toAscii() << endl;
+            if (ui->tableWidget->item(0,x))
+            {
+                file1->write(ui->tableWidget->item(0,x)->text().toAscii());
+            }
         }
         file1->close();
     }
+    else QMessageBox::warning(0,QString("Warning"),QString("Could not open file bullware.csv for writing."));
     delete ui;
 }
