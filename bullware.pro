@@ -17,7 +17,9 @@ HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
+icons.path = /usr/share/icons
+icons.files += bullware.svg
 desktop.path = /usr/share/applications
 desktop.files += bullware.desktop
 target.path = $$[QT_INSTALL_BINS]
-INSTALLS += target desktop
+INSTALLS += target desktop icons

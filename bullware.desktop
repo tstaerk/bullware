@@ -4,6 +4,7 @@ Name=BullWare
 GenericName=BullWare
 Comment=BullWare Financial Application
 Type=Application
+Icon=/usr/share/icons/bullware.svg
 Terminal=false
 Exec=/usr/local/bin/bullware
 Categories=Office;Finance
