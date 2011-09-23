@@ -14,19 +14,26 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    bool filewriteerror=false;
     QString filename("bullware.csv");
     QFile* file1=new QFile(filename);
     if (file1->open(QIODevice::WriteOnly))
     {
-        for (int x=0; x<ui->tableWidget->columnCount(); ++x)
+        for (int y=0; y<ui->tableWidget->rowCount(); ++y)
         {
-            if (ui->tableWidget->item(0,x))
+            for (int x=0; x<ui->tableWidget->columnCount(); ++x)
             {
-                file1->write(ui->tableWidget->item(0,x)->text().toAscii());
+                if (ui->tableWidget->item(y,x))
+                {
+                    if (file1->write(ui->tableWidget->item(y,x)->text().toAscii())==-1)
+                        filewriteerror=true;
+                }
             }
+            file1->write("\n");
         }
         file1->close();
     }
     else QMessageBox::warning(0,QString("Warning"),QString("Could not open file bullware.csv for writing."));
+    if (filewriteerror) QMessageBox::warning(0,QString("Warning"),QString("Could not write to file bullware.csv."));
     delete ui;
 }
