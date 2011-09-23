@@ -3,7 +3,6 @@
     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" 
     width="300" height="300">
-  <!-- This is the big rectangle: -->
   <text x="110" y="160" fill="#CAA742" font-color="#CAA742" stroke="#000000" font-family="Helvetica" font-size="15">
     $
   </text>
