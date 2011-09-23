@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=0.1
+Name=BullWare
+GenericName=BullWare
+Comment=BullWare Financial Application
+Type=Application
+Terminal=false
+Exec=/usr/local/bin/bullware
+Categories=Office;Finance
