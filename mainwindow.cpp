@@ -51,7 +51,11 @@ void MainWindow::on_actionImport_CSV_File_triggered()
             QStringList list=line.split(",");
             qDebug() << ui->tableWidget->item(0,0);
             delete ui->tableWidget->item(0,0);
-            ui->tableWidget->setItem(0,0,new QTableWidgetItem(list[0].replace("\"","")));
+            for (int x=0; x<list.count(); x++)
+            {
+                delete ui->tableWidget->item(0,x);
+                ui->tableWidget->setItem(0,x,new QTableWidgetItem(list[x].replace("\"","").replace("\n","")));
+            }
         }
     }
     else
