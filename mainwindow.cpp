@@ -44,18 +44,18 @@ MainWindow::~MainWindow()
 
 QString MainWindow::importcsvfile(QString filename)
 {
+    QString err;
     QFile* file1=new QFile(filename);
     if (file1->open(QIODevice::ReadOnly))
     {
-        int y=-1;
+
         QString separator(";");
-        while (!file1->atEnd())
+        QString filecontent=file1->readAll();
+        QStringList rows=filecontent.split("\n");
+        ui->tableWidget->setRowCount(rows.count()+1);
+        for (int y=0; y<rows.count(); y++)
         {
-            y++;
-            QString line=file1->readLine();
-            qDebug() << line;
-            QStringList list=line.split(separator);
-            qDebug() << ui->tableWidget->item(0,0);
+            QStringList list=rows[y].split(separator);
             for (int x=0; x<list.count(); x++)
             {
                 delete ui->tableWidget->item(y,x);
