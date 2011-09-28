@@ -44,17 +44,19 @@ void MainWindow::on_actionImport_CSV_File_triggered()
     QFile* file1=new QFile(QFileDialog::getOpenFileName(0,"Enter a transactions file."));
     if (file1->open(QIODevice::ReadOnly))
     {
+        int y=-1;
+        QString separator(";");
         while (!file1->atEnd())
         {
+            y++;
             QString line=file1->readLine();
             qDebug() << line;
-            QStringList list=line.split(",");
+            QStringList list=line.split(separator);
             qDebug() << ui->tableWidget->item(0,0);
-            delete ui->tableWidget->item(0,0);
             for (int x=0; x<list.count(); x++)
             {
-                delete ui->tableWidget->item(0,x);
-                ui->tableWidget->setItem(0,x,new QTableWidgetItem(list[x].replace("\"","").replace("\n","")));
+                delete ui->tableWidget->item(y,x);
+                ui->tableWidget->setItem(y,x,new QTableWidgetItem(list[x].replace("\"","").replace("\n","")));
             }
         }
     }
