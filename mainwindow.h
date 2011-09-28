@@ -14,6 +14,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    QString importcsvfile(QString filename);
 
 private slots:
     void on_actionImport_CSV_File_triggered();

@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    importcsvfile("bullware.csv");
 }
 
 MainWindow::~MainWindow()
@@ -39,9 +40,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_actionImport_CSV_File_triggered()
+QString MainWindow::importcsvfile(QString filename)
 {
-    QFile* file1=new QFile(QFileDialog::getOpenFileName(0,"Enter a transactions file."));
+    QFile* file1=new QFile(filename);
     if (file1->open(QIODevice::ReadOnly))
     {
         int y=-1;
@@ -62,4 +63,10 @@ void MainWindow::on_actionImport_CSV_File_triggered()
     }
     else
         QMessageBox::warning(0,"Attention","Could not open file.");
+    return QString();
+}
+
+void MainWindow::on_actionImport_CSV_File_triggered()
+{
+    importcsvfile(QFileDialog::getOpenFileName(0,"Enter a transactions file."));
 }
