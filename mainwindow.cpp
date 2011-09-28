@@ -18,6 +18,7 @@ MainWindow::~MainWindow()
 {
     bool filewriteerror=false;
     QString filename("bullware.csv");
+    QString separator(";");
     QFile* file1=new QFile(filename);
     if (file1->open(QIODevice::WriteOnly))
     {
@@ -27,7 +28,7 @@ MainWindow::~MainWindow()
             {
                 if (ui->tableWidget->item(y,x))
                 {
-                    if (file1->write(ui->tableWidget->item(y,x)->text().toAscii())==-1)
+                    if (file1->write(ui->tableWidget->item(y,x)->text().append(separator).toAscii())==-1)
                         filewriteerror=true;
                 }
             }
@@ -37,6 +38,7 @@ MainWindow::~MainWindow()
     }
     else QMessageBox::warning(0,QString("Warning"),QString("Could not open file bullware.csv for writing."));
     if (filewriteerror) QMessageBox::warning(0,QString("Warning"),QString("Could not write to file bullware.csv."));
+    delete file1;
     delete ui;
 }
 
@@ -63,6 +65,7 @@ QString MainWindow::importcsvfile(QString filename)
     }
     else
         QMessageBox::warning(0,"Attention","Could not open file.");
+    delete file1;
     return QString();
 }
 
