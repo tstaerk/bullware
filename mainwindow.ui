@@ -105,6 +105,7 @@
      <string>File</string>
     </property>
     <addaction name="actionImport_CSV_File"/>
+    <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -120,6 +121,11 @@
   <action name="actionImport_CSV_File">
    <property name="text">
     <string>Import CSV File</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
    </property>
   </action>
  </widget>

@@ -73,3 +73,8 @@ void MainWindow::on_actionImport_CSV_File_triggered()
 {
     importcsvfile(QFileDialog::getOpenFileName(0,"Enter a transactions file."));
 }
+
+void MainWindow::on_actionQuit_triggered()
+{
+    QApplication::quit();
+}
