@@ -50,7 +50,7 @@ MainWindow::~MainWindow()
     else
         qDebug() << "failed";
     QSqlQuery query;
-    if (query.exec("create table transactions(stock varchar(20), type int, date date, amount float, price float, currency char(3), sum float, sumcurrency char(3))"))
+    if (query.exec("create table if not exists transactions(stock varchar(20), type int, date date, amount float, price float, currency char(3), sum float, sumcurrency char(3))"))
     {
         qDebug() << "query successful";
     }
@@ -58,7 +58,7 @@ MainWindow::~MainWindow()
     {
         qDebug() << "query failed";
     }
-    if (query.exec("insert into transactions VALUES ('spar',1,DATETIME('NOW'),1.0,1.0,'DEM',1.0,'DEM')"))
+    if (query.exec("insert into transactions VALUES ('spar',1,'2011-12-12',1.0,1.0,'DEM',1.0,'DEM')"))
     {
 
     }
