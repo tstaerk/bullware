@@ -52,7 +52,8 @@ MainWindow::~MainWindow()
         if (query.exec("create table if not exists transactions(stock varchar(20), type int, date date, amount float, price float, currency char(3), sum float, sumcurrency char(3))"))
         {
             qDebug() << "create query successful";
-            if (query.exec("insert into transactions VALUES ('spar',1,'2011-12-12',1.0,1.0,'DEM',1.0,'DEM')"))
+            int line=0;
+            if (query.exec(QString("insert into transactions VALUES ('").append(ui->tableWidget->item(line,0)->text()).append("',1,'2011-12-12',1.0,1.0,'DEM',1.0,'DEM')")))
             {
             }
             else
