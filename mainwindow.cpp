@@ -2,6 +2,8 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QSqlDatabase>
+#include <QSqlQuery>
 #include <QTableWidgetItem>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -38,6 +40,36 @@ MainWindow::~MainWindow()
     }
     else QMessageBox::warning(0,QString("Warning"),QString("Could not open file bullware.csv for writing."));
     if (filewriteerror) QMessageBox::warning(0,QString("Warning"),QString("Could not write to file bullware.csv."));
+
+
+    QSqlDatabase db;
+    db=QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("bullware.dat");
+    if (db.open())
+        qDebug() << "success";
+    else
+        qDebug() << "failed";
+    QSqlQuery query;
+    if (query.exec("create table transactions(stock varchar(20), type int, date date, amount float, price float, currency char(3), sum float, sumcurrency char(3))"))
+    {
+        qDebug() << "query successful";
+    }
+    else
+    {
+        qDebug() << "query failed";
+    }
+    if (query.exec("insert into transactions VALUES ('spar',1,DATETIME('NOW'),1.0,1.0,'DEM',1.0,'DEM')"))
+    {
+
+    }
+    else
+    {
+        qDebug() << "query failed";
+    }
+    db.commit();
+    db.close();
+
+
     delete file1;
     delete ui;
 }
