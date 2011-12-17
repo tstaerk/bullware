@@ -46,26 +46,27 @@ MainWindow::~MainWindow()
     db=QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("bullware.dat");
     if (db.open())
-        qDebug() << "success";
-    else
-        qDebug() << "failed";
-    QSqlQuery query;
-    if (query.exec("create table if not exists transactions(stock varchar(20), type int, date date, amount float, price float, currency char(3), sum float, sumcurrency char(3))"))
     {
-        qDebug() << "query successful";
+        qDebug() << "db open: success";
+        QSqlQuery query;
+        if (query.exec("create table if not exists transactions(stock varchar(20), type int, date date, amount float, price float, currency char(3), sum float, sumcurrency char(3))"))
+        {
+            qDebug() << "create query successful";
+            if (query.exec("insert into transactions VALUES ('spar',1,'2011-12-12',1.0,1.0,'DEM',1.0,'DEM')"))
+            {
+            }
+            else
+            {
+                qDebug() << "insert query failed";
+            }
+        }
+        else
+        {
+            qDebug() << "create query failed";
+        }
     }
     else
-    {
-        qDebug() << "query failed";
-    }
-    if (query.exec("insert into transactions VALUES ('spar',1,'2011-12-12',1.0,1.0,'DEM',1.0,'DEM')"))
-    {
-
-    }
-    else
-    {
-        qDebug() << "query failed";
-    }
+        qDebug() << "db open failed";
     db.commit();
     db.close();
 
