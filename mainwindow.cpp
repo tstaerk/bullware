@@ -24,15 +24,18 @@ MainWindow::~MainWindow()
     QFile* file1=new QFile(filename);
     if (file1->open(QIODevice::WriteOnly))
     {
-        for (int y=0; y<ui->tableWidget->rowCount(); ++y)
+        for (int y=0; y<ui->tableWidget->rowCount()-1; ++y)
         {
             for (int x=0; x<ui->tableWidget->columnCount(); ++x)
             {
                 if (ui->tableWidget->item(y,x))
                 {
-                    if (file1->write(ui->tableWidget->item(y,x)->text().append(separator).toAscii())==-1)
+                    if (file1->write(ui->tableWidget->item(y,x)->text().toAscii())==-1)
                         filewriteerror=true;
                 }
+                if (file1->write((separator).toAscii())==-1)
+                    filewriteerror=true;
+                qDebug() << "writing ;" << "y=" << y;
             }
             file1->write("\n");
         }
@@ -87,8 +90,8 @@ QString MainWindow::importcsvfile(QString filename)
         QString separator(";");
         QString filecontent=file1->readAll();
         QStringList rows=filecontent.split("\n");
-        ui->tableWidget->setRowCount(rows.count()+1);
-        for (int y=0; y<rows.count(); y++)
+        ui->tableWidget->setRowCount(rows.count());
+        for (int y=0; y<rows.count()-1; y++)
         {
             QStringList list=rows[y].split(separator);
             for (int x=0; x<list.count(); x++)
