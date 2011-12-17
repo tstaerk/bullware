@@ -53,6 +53,7 @@ MainWindow::~MainWindow()
         {
             qDebug() << "create query successful";
             int line=0;
+            //TODO: fix possible sql injection
             if (query.exec(QString("insert into transactions VALUES ('").append(ui->tableWidget->item(line,0)->text()).append("',1,'2011-12-12',1.0,1.0,'DEM',1.0,'DEM')")))
             {
             }
