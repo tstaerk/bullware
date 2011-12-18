@@ -121,3 +121,28 @@ void MainWindow::on_actionQuit_triggered()
 {
     QApplication::quit();
 }
+
+void MainWindow::on_tabWidget_selected(const QString &arg1)
+{
+
+    ui->comboBox->addItem("All stocks");
+    QSqlDatabase db;
+    db=QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("bullware.dat");
+    if (db.open())
+    {
+        QSqlQuery query;
+        if (query.exec("select distinct stock from transactions order by stock"))
+        {
+            if (!query.first()) qDebug() << "no result from query";
+            ui->comboBox->addItem(query.value(0).toString());
+            while (query.next())
+            {
+                ui->comboBox->addItem(query.value(0).toString());
+            }
+        }
+        else qDebug() << "could not query";
+    }
+    else qDebug() << "could not open database";
+    db.close();
+}
