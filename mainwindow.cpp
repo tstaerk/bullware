@@ -161,3 +161,8 @@ void MainWindow::on_commandLinkButton_clicked()
 {
     ui->tableWidget->removeRow(ui->tableWidget->currentRow());
 }
+
+void MainWindow::on_commandLinkButton_2_clicked()
+{
+    ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+}
