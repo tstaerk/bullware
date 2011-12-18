@@ -80,6 +80,7 @@ MainWindow::~MainWindow()
     {
         qDebug() << "db open: success";
         QSqlQuery query;
+        query.exec("drop table transactions");
         if (query.exec("create table if not exists transactions(stock varchar(20), type int, date date, amount float, price float, currency char(3), sum float, sumcurrency char(3))"))
         {
             qDebug() << "create query successful";
@@ -87,11 +88,14 @@ MainWindow::~MainWindow()
             {
                 if (ui->tableWidget->item(y,0))
                 {
+                    QString line="'";
+                    line.append(ui->tableWidget->item(y,0)->text());
+                    line.append("',");
+                    if (ui->tableWidget->item(y,1)->text()=="buy") line.append("1");
+                    else if (ui->tableWidget->item(y,1)->text()=="sell") line.append("2");
+                    else line.append("3");
                     //TODO: fix possible sql injection
-                    if (query.exec(QString("insert into transactions VALUES ('").append(ui->tableWidget->item(y,0)->text()).append("',1,'2011-12-12',1.0,1.0,'DEM',1.0,'DEM')")))
-                    {
-                    }
-                    else
+                    if (!query.exec(QString("insert into transactions VALUES (").append(line).append(",'2011-12-12',1.0,1.0,'DEM',1.0,'DEM')")))
                     {
                         qDebug() << "insert query failed";
                     }
