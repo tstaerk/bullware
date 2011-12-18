@@ -21,6 +21,10 @@ private slots:
 
     void on_actionQuit_triggered();
 
+    void on_tableWidget_customContextMenuRequested(const QPoint &pos);
+
+    void on_commandLinkButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

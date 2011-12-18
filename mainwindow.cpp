@@ -149,3 +149,15 @@ void MainWindow::on_actionQuit_triggered()
 {
     QApplication::quit();
 }
+
+void MainWindow::on_tableWidget_customContextMenuRequested(const QPoint &pos)
+{
+    QMenu* menu1=new QMenu(0);
+    menu1->addAction("delete");
+    menu1->popup(QPoint(1,1));
+}
+
+void MainWindow::on_commandLinkButton_clicked()
+{
+    ui->tableWidget->removeRow(ui->tableWidget->currentRow());
+}
