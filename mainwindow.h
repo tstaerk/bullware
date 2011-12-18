@@ -21,8 +21,6 @@ private slots:
 
     void on_actionQuit_triggered();
 
-    void on_tabWidget_selected(const QString &arg1);
-
 private:
     Ui::MainWindow *ui;
 };

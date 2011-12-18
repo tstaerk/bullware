@@ -1,3 +1,10 @@
+/* Concept
+
+  All is stored as transactions. The sum of available stocks is calculated by adding buy actions and subtracting sell actions.
+  Transactions have a type, it is buy, sell
+  Different currencies are possible.
+
+*/
 #include <QDebug>
 #include <QFile>
 #include <QFileDialog>
@@ -14,6 +21,27 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     importcsvfile("bullware.csv");
+
+    // Add options to filter combo box
+    QSqlDatabase db;
+    db=QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("bullware.dat");
+    if (db.open())
+    {
+        QSqlQuery query;
+        if (query.exec("select distinct stock from transactions order by stock"))
+        {
+            if (!query.first()) qDebug() << "no result from query";
+            ui->comboBox->addItem(query.value(0).toString());
+            while (query.next())
+            {
+                ui->comboBox->addItem(query.value(0).toString());
+            }
+        }
+        else qDebug() << "could not query";
+    }
+    else qDebug() << "could not open database";
+    db.close();
 }
 
 MainWindow::~MainWindow()
@@ -120,29 +148,4 @@ void MainWindow::on_actionImport_CSV_File_triggered()
 void MainWindow::on_actionQuit_triggered()
 {
     QApplication::quit();
-}
-
-void MainWindow::on_tabWidget_selected(const QString &arg1)
-{
-
-    ui->comboBox->addItem("All stocks");
-    QSqlDatabase db;
-    db=QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("bullware.dat");
-    if (db.open())
-    {
-        QSqlQuery query;
-        if (query.exec("select distinct stock from transactions order by stock"))
-        {
-            if (!query.first()) qDebug() << "no result from query";
-            ui->comboBox->addItem(query.value(0).toString());
-            while (query.next())
-            {
-                ui->comboBox->addItem(query.value(0).toString());
-            }
-        }
-        else qDebug() << "could not query";
-    }
-    else qDebug() << "could not open database";
-    db.close();
 }
