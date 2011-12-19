@@ -146,6 +146,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+QString MainWindow::type(QString type)
+{
+    QString result="0";
+    if (type=="buy") result="1";
+    if (type=="sell") result="2";
+    return result;
+}
+
 QString MainWindow::importcsvfile(QString filename)
 {
     QString err;
@@ -202,18 +210,40 @@ void MainWindow::on_commandLinkButton_2_clicked()
 
 void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
 {
-    qDebug() << arg1;
     while (ui->tableWidget_2->rowCount())
         ui->tableWidget_2->removeRow(0);
-    ui->tableWidget_2->setColumnCount(5);
+    ui->tableWidget_2->setColumnCount(9);
     QSqlDatabase db;
     db=QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("bullware.dat");
     if (db.open())
     {
-        QSqlQuery query;
-        QString query2="select * from transactions where stock='";
-        query2.append(arg1).append("'");
+        QSqlQuery query; // class that is needed around the query to query
+        QString query2;  // the actual query
+        if (arg1=="All Stocks")
+        {
+            if (ui->comboBox_2->currentIndex()==0)
+                query2="select * from transactions";
+            else
+            {
+                query2="select * from transactions where type='";
+                query2.append(type(ui->comboBox_2->currentText())).append("'");
+            }
+        }
+        else
+        {
+            if (ui->comboBox_2->currentIndex()==0)
+            {
+                query2="select * from transactions where stock='";
+                query2.append(arg1).append("'");
+            }
+            else
+            {
+                query2="select * from transactions where stock='";
+                query2.append(arg1).append("' and type='");
+                query2.append(type(ui->comboBox_2->currentText())).append("'");
+            }
+        }
         qDebug() << "query2 = " << query2;
         if (query.exec(query2))
         {
