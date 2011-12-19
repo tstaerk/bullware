@@ -123,7 +123,6 @@ void MainWindow::load()
                     ui->tableWidget->setItem(y,2,new QTableWidgetItem(query.value(2).toString()));
                     ui->tableWidget->setItem(y,3,new QTableWidgetItem(query.value(3).toString()));
                     y++;
-                    qDebug() << "query" << query.value(1).toString();
                     ui->tableWidget->setRowCount(ui->tableWidget->rowCount()+1);
                 }
             }
@@ -154,18 +153,15 @@ void MainWindow::savetabletodb()
                     QString line="'";
                     line.append(ui->tableWidget->item(y,0)->text());
                     line.append("',");
-                    if (ui->tableWidget->item(y,1)->text()=="buy") line.append("1");
-                    else if (ui->tableWidget->item(y,1)->text()=="sell") line.append("2");
-                    else if (ui->tableWidget->item(y,1)->text()=="inventory") line.append("3");
-                    else if (ui->tableWidget->item(y,1)->text()=="dividend") line.append("4");
-                    else if (ui->tableWidget->item(y,1)->text()=="accumulation") line.append("5");
-                    else line.append("0");
+                    line.append(type(ui->tableWidget->item(y,1)->text()));
                     line.append(",'");
                     line.append(ui->tableWidget->item(y,2)->text());
                     line.append("',");
                     line.append(ui->tableWidget->item(y,3)->text());
                     line.append(",");
-                    if (!query.exec(QString("insert into transactions VALUES (").append(line).append("1.0,'DEM',1.0,'DEM')")))
+                    line.append(ui->tableWidget->item(y,4)->text());
+                    line.append(",");
+                    if (!query.exec(QString("insert into transactions VALUES (").append(line).append("'DEM',1.0,'DEM')")))
                     {
                         qDebug() << "insert query failed";
                     }
