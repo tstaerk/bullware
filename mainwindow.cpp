@@ -199,3 +199,35 @@ void MainWindow::on_commandLinkButton_2_clicked()
 {
     ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 }
+
+void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
+{
+    qDebug() << arg1;
+    while (ui->tableWidget_2->rowCount())
+        ui->tableWidget_2->removeRow(0);
+    ui->tableWidget_2->setColumnCount(5);
+    QSqlDatabase db;
+    db=QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("bullware.dat");
+    if (db.open())
+    {
+        QSqlQuery query;
+        QString query2="select * from transactions where stock='";
+        query2.append(arg1).append("'");
+        qDebug() << "query2 = " << query2;
+        if (query.exec(query2))
+        {
+            if (!query.first()) qDebug() << "no result from query";
+            qDebug() << "query delivers" << query.value(0).toString();
+            ui->tableWidget_2->insertRow(0);
+            ui->tableWidget_2->setItem(0,0,new QTableWidgetItem(query.value(0).toString()));
+            while (query.next())
+            {
+                ui->tableWidget_2->insertRow(0);
+            }
+        }
+        else qDebug() << "could not query";
+    }
+    else qDebug() << "could not open database";
+    db.close();
+}

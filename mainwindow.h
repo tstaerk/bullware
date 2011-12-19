@@ -27,6 +27,8 @@ private slots:
 
     void on_commandLinkButton_2_clicked();
 
+    void on_comboBox_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
 };
