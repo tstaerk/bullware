@@ -1,7 +1,33 @@
 /* Concept
 
   All is stored as transactions. The sum of available stocks is calculated by adding buy actions and subtracting sell actions.
-  Transactions have a type, it is buy, sell
+
+  Examples for transactions:
+  you buy $1000 for 800EUR
+  you get a dividend of $50 from your Microsoft stocks
+  you find you have an inventory of 50 shares of fund ABC
+  you have to pay $20 as deposit fees for stock XYZ
+  you pay 0.12 funds of fund ABC for deposit fees
+  you save EUR 100 on a bank account
+  you withdraw EUR 100 from a bank account
+  interests from your bank account go to your bank account
+  your fund shares accumulate because you held them for one year
+  you have to separate your inventory of fund ABC for tax reasons. deposit 00 has 100 shares, deposit 01 has 200 shares.
+  as an employee you get 1 stock from your company as an incentive
+  you bought stocks XYZ in 1988 but cannot remember the exact date
+
+  So a transaction can be of type
+  1 - buy
+  2 - sell
+  3 - inventory
+  4 - dividend
+  5 - accumulation
+  6 - monetary deposit fees
+  7 - fund deposit fees
+  8 - save
+  9 - withdraw
+  10 - interests
+
   Different currencies are possible.
 
 */
@@ -93,7 +119,10 @@ MainWindow::~MainWindow()
                     line.append("',");
                     if (ui->tableWidget->item(y,1)->text()=="buy") line.append("1");
                     else if (ui->tableWidget->item(y,1)->text()=="sell") line.append("2");
-                    else line.append("3");
+                    else if (ui->tableWidget->item(y,1)->text()=="inventory") line.append("3");
+                    else if (ui->tableWidget->item(y,1)->text()=="dividend") line.append("4");
+                    else if (ui->tableWidget->item(y,1)->text()=="accumulation") line.append("5");
+                    else line.append("0");
                     //TODO: fix possible sql injection
                     if (!query.exec(QString("insert into transactions VALUES (").append(line).append(",'2011-12-12',1.0,1.0,'DEM',1.0,'DEM')")))
                     {

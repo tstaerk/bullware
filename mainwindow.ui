@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -100,56 +100,39 @@
        <attribute name="title">
         <string>Reports</string>
        </attribute>
-       <widget class="QComboBox" name="comboBox">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>141</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>All Stocks</string>
-         </property>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="QComboBox" name="comboBox">
+          <item>
+           <property name="text">
+            <string>All Stocks</string>
+           </property>
+          </item>
+         </widget>
         </item>
-       </widget>
-       <widget class="QComboBox" name="comboBox_2">
-        <property name="geometry">
-         <rect>
-          <x>160</x>
-          <y>10</y>
-          <width>131</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>buy/sell/everything</string>
-         </property>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBox_2">
+          <item>
+           <property name="text">
+            <string>buy/sell/everything</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>buy</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>sell</string>
+           </property>
+          </item>
+         </widget>
         </item>
-        <item>
-         <property name="text">
-          <string>buy</string>
-         </property>
+        <item row="1" column="0" colspan="2">
+         <widget class="QTableWidget" name="tableWidget_2"/>
         </item>
-        <item>
-         <property name="text">
-          <string>sell</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QTableWidget" name="tableWidget_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>40</y>
-          <width>361</width>
-          <height>161</height>
-         </rect>
-        </property>
-       </widget>
+       </layout>
       </widget>
      </widget>
     </item>
