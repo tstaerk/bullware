@@ -46,28 +46,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    importcsvfile("bullware.csv");
-
+    //importcsvfile("bullware.csv");
+    load();
     // Add options to filter combo box
-    QSqlDatabase db;
-    db=QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("bullware.dat");
-    if (db.open())
-    {
-        QSqlQuery query;
-        if (query.exec("select distinct stock from transactions order by stock"))
-        {
-            if (!query.first()) qDebug() << "no result from query";
-            ui->comboBox->addItem(query.value(0).toString());
-            while (query.next())
-            {
-                ui->comboBox->addItem(query.value(0).toString());
-            }
-        }
-        else qDebug() << "could not query";
-    }
-    else qDebug() << "could not open database";
-    db.close();
+    fillfilters();
 }
 
 MainWindow::~MainWindow()
@@ -99,6 +81,56 @@ MainWindow::~MainWindow()
     if (filewriteerror) QMessageBox::warning(0,QString("Warning"),QString("Could not write to file bullware.csv."));
 
 
+
+    delete file1;
+    delete ui;
+}
+
+QString MainWindow::type(QString type)
+{
+    QString result="0";
+    if (type=="buy") result="1";
+    if (type=="sell") result="2";
+    if (type=="inventory") result="3";
+    if (type=="dividend") result="4";
+    if (type=="accumulation") result="5";
+    return result;
+}
+
+void MainWindow::load()
+{
+    QSqlDatabase db;
+    int y=0;
+    db=QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("bullware.dat");
+    ui->tableWidget->setRowCount(1);
+    if (db.open())
+    {
+        QSqlQuery query;
+        if (query.exec("select * from transactions"))
+        {
+            if (!query.first()) qDebug() << "no result from query";
+            else
+            {
+                ui->tableWidget->setItem(0,0,new QTableWidgetItem(query.value(0).toString()));
+                while (query.next())
+                {
+                    ui->tableWidget->setItem(y,0,new QTableWidgetItem(query.value(0).toString()));
+                    ui->tableWidget->setItem(y,1,new QTableWidgetItem(query.value(1).toString()));
+                    y++;
+                    qDebug() << "query" << query.value(1).toString();
+                    ui->tableWidget->setRowCount(ui->tableWidget->rowCount()+1);
+                }
+            }
+        }
+        else qDebug() << "could not query";
+    }
+    else qDebug() << "could not open database";
+    db.close();
+}
+
+void MainWindow::savetabletodb()
+{
     QSqlDatabase db;
     db=QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("bullware.dat");
@@ -140,18 +172,30 @@ MainWindow::~MainWindow()
         qDebug() << "db open failed";
     db.commit();
     db.close();
-
-
-    delete file1;
-    delete ui;
 }
 
-QString MainWindow::type(QString type)
+void MainWindow::fillfilters()
 {
-    QString result="0";
-    if (type=="buy") result="1";
-    if (type=="sell") result="2";
-    return result;
+    // Add options to filter combo box
+    QSqlDatabase db;
+    db=QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("bullware.dat");
+    if (db.open())
+    {
+        QSqlQuery query;
+        if (query.exec("select distinct stock from transactions order by stock"))
+        {
+            if (!query.first()) qDebug() << "no result from query";
+            ui->comboBox->addItem(query.value(0).toString());
+            while (query.next())
+            {
+                ui->comboBox->addItem(query.value(0).toString());
+            }
+        }
+        else qDebug() << "could not query";
+    }
+    else qDebug() << "could not open database";
+    db.close();
 }
 
 QString MainWindow::importcsvfile(QString filename)
@@ -178,6 +222,7 @@ QString MainWindow::importcsvfile(QString filename)
     else
         QMessageBox::warning(0,"Attention","Could not open file.");
     delete file1;
+    savetabletodb();
     return QString();
 }
 
@@ -208,7 +253,7 @@ void MainWindow::on_commandLinkButton_2_clicked()
     ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 }
 
-void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
+void MainWindow::filterlist()
 {
     while (ui->tableWidget_2->rowCount())
         ui->tableWidget_2->removeRow(0);
@@ -220,7 +265,7 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
     {
         QSqlQuery query; // class that is needed around the query to query
         QString query2;  // the actual query
-        if (arg1=="All Stocks")
+        if (ui->comboBox->currentText()=="All Stocks")
         {
             if (ui->comboBox_2->currentIndex()==0)
                 query2="select * from transactions";
@@ -235,12 +280,12 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
             if (ui->comboBox_2->currentIndex()==0)
             {
                 query2="select * from transactions where stock='";
-                query2.append(arg1).append("'");
+                query2.append(ui->comboBox->currentText()).append("'");
             }
             else
             {
                 query2="select * from transactions where stock='";
-                query2.append(arg1).append("' and type='");
+                query2.append(ui->comboBox->currentText()).append("' and type='");
                 query2.append(type(ui->comboBox_2->currentText())).append("'");
             }
         }
@@ -254,10 +299,21 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
             while (query.next())
             {
                 ui->tableWidget_2->insertRow(0);
+                ui->tableWidget_2->setItem(0,0,new QTableWidgetItem(query.value(0).toString()));
             }
         }
         else qDebug() << "could not query";
     }
     else qDebug() << "could not open database";
     db.close();
+}
+
+void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
+{
+    filterlist();
+}
+
+void MainWindow::on_comboBox_2_currentIndexChanged(const QString &arg1)
+{
+    filterlist();
 }
