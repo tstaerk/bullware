@@ -30,6 +30,9 @@
 
   Different currencies are possible.
 
+  Security
+  Against data damage: none. If you use sql injections to destroy your own data, you want it so.
+
 */
 #include <QDebug>
 #include <QFile>
@@ -117,6 +120,8 @@ void MainWindow::load()
                 {
                     ui->tableWidget->setItem(y,0,new QTableWidgetItem(query.value(0).toString()));
                     ui->tableWidget->setItem(y,1,new QTableWidgetItem(query.value(1).toString()));
+                    ui->tableWidget->setItem(y,2,new QTableWidgetItem(query.value(2).toString()));
+                    ui->tableWidget->setItem(y,3,new QTableWidgetItem(query.value(3).toString()));
                     y++;
                     qDebug() << "query" << query.value(1).toString();
                     ui->tableWidget->setRowCount(ui->tableWidget->rowCount()+1);
@@ -155,8 +160,12 @@ void MainWindow::savetabletodb()
                     else if (ui->tableWidget->item(y,1)->text()=="dividend") line.append("4");
                     else if (ui->tableWidget->item(y,1)->text()=="accumulation") line.append("5");
                     else line.append("0");
-                    //TODO: fix possible sql injection
-                    if (!query.exec(QString("insert into transactions VALUES (").append(line).append(",'2011-12-12',1.0,1.0,'DEM',1.0,'DEM')")))
+                    line.append(",'");
+                    line.append(ui->tableWidget->item(y,2)->text());
+                    line.append("',");
+                    line.append(ui->tableWidget->item(y,3)->text());
+                    line.append(",");
+                    if (!query.exec(QString("insert into transactions VALUES (").append(line).append("1.0,'DEM',1.0,'DEM')")))
                     {
                         qDebug() << "insert query failed";
                     }
