@@ -95,10 +95,8 @@ void MainWindow::load()
                 ui->tableWidget->setItem(0,0,new QTableWidgetItem(query.value(0).toString()));
                 while (query.next())
                 {
-                    ui->tableWidget->setItem(y,0,new QTableWidgetItem(query.value(0).toString()));
-                    ui->tableWidget->setItem(y,1,new QTableWidgetItem(query.value(1).toString()));
-                    ui->tableWidget->setItem(y,2,new QTableWidgetItem(query.value(2).toString()));
-                    ui->tableWidget->setItem(y,3,new QTableWidgetItem(query.value(3).toString()));
+                    for (int i=0; i<9; i++)
+                        ui->tableWidget->setItem(y,i,new QTableWidgetItem(query.value(i).toString()));
                     y++;
                     ui->tableWidget->setRowCount(ui->tableWidget->rowCount()+1);
                 }
