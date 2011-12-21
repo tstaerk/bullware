@@ -277,11 +277,8 @@ void MainWindow::filterlist()
             while (query.next())
             {
                 ui->tableWidget_2->insertRow(0);
-                ui->tableWidget_2->setItem(0,0,new QTableWidgetItem(query.value(0).toString()));
-                ui->tableWidget_2->setItem(0,1,new QTableWidgetItem(query.value(1).toString()));
-                ui->tableWidget_2->setItem(0,2,new QTableWidgetItem(query.value(2).toString()));
-                ui->tableWidget_2->setItem(0,3,new QTableWidgetItem(query.value(3).toString()));
-                ui->tableWidget_2->setItem(0,4,new QTableWidgetItem(query.value(4).toString()));
+                for (int i=0; i<9; i++)
+                    ui->tableWidget_2->setItem(0,i,new QTableWidgetItem(query.value(i).toString()));
             }
         }
         else qDebug() << "could not query";
