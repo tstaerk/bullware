@@ -17,6 +17,7 @@ public:
     QString type(QString type);
     void load();
     void savetabletodb();
+    QString savetabletocsv();
     void fillfilters();
     void filterlist();
     QString importcsvfile(QString filename);

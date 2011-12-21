@@ -57,36 +57,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    bool filewriteerror=false;
-    QString filename("bullware.csv");
-    QString separator(";");
-    QFile* file1=new QFile(filename);
-    if (file1->open(QIODevice::WriteOnly))
-    {
-        for (int y=0; y<ui->tableWidget->rowCount()-1; ++y)
-        {
-            for (int x=0; x<ui->tableWidget->columnCount(); ++x)
-            {
-                if (ui->tableWidget->item(y,x))
-                {
-                    if (file1->write(ui->tableWidget->item(y,x)->text().toAscii())==-1)
-                        filewriteerror=true;
-                }
-                if (file1->write((separator).toAscii())==-1)
-                    filewriteerror=true;
-                qDebug() << "writing ;" << "y=" << y;
-            }
-            file1->write("\n");
-        }
-        file1->close();
-    }
-    else QMessageBox::warning(0,QString("Warning"),QString("Could not open file bullware.csv for writing."));
-    if (filewriteerror) QMessageBox::warning(0,QString("Warning"),QString("Could not write to file bullware.csv."));
-
-
-
-    delete file1;
     delete ui;
+}
+
+QString MainWindow::savetabletocsv()
+{
+    QString err=QString();
+    return err;
 }
 
 QString MainWindow::type(QString type)
@@ -297,14 +274,14 @@ void MainWindow::filterlist()
         qDebug() << "query2 = " << query2;
         if (query.exec(query2))
         {
-            if (!query.first()) qDebug() << "no result from query";
-            qDebug() << "query delivers" << query.value(0).toString();
-            ui->tableWidget_2->insertRow(0);
-            ui->tableWidget_2->setItem(0,0,new QTableWidgetItem(query.value(0).toString()));
             while (query.next())
             {
                 ui->tableWidget_2->insertRow(0);
                 ui->tableWidget_2->setItem(0,0,new QTableWidgetItem(query.value(0).toString()));
+                ui->tableWidget_2->setItem(0,1,new QTableWidgetItem(query.value(1).toString()));
+                ui->tableWidget_2->setItem(0,2,new QTableWidgetItem(query.value(2).toString()));
+                ui->tableWidget_2->setItem(0,3,new QTableWidgetItem(query.value(3).toString()));
+                ui->tableWidget_2->setItem(0,4,new QTableWidgetItem(query.value(4).toString()));
             }
         }
         else qDebug() << "could not query";
