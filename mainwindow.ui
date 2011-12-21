@@ -78,6 +78,11 @@
             <string>sum currency</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>deposit</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -130,7 +135,53 @@
          </widget>
         </item>
         <item row="1" column="0" colspan="2">
-         <widget class="QTableWidget" name="tableWidget_2"/>
+         <widget class="QTableWidget" name="tableWidget_2">
+          <column>
+           <property name="text">
+            <string>stock</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>type</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>date</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>amount</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>price</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>price currency</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>sum</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>sum currency</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>deposit</string>
+           </property>
+          </column>
+         </widget>
         </item>
        </layout>
       </widget>
