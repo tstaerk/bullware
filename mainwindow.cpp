@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     load();
     // Add options to filter combo box
     fillfilters();
+    filterlist();
 }
 
 MainWindow::~MainWindow()
