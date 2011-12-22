@@ -30,6 +30,19 @@
 
   Different currencies are possible.
 
+  A transaction has the following fields:
+  ID - primary key
+  stock - e.g. BASF
+  type - e.g. buy/sell
+  date - date of purchase. Sometimes it happens that you do not know exactly, so it must be a char(10)
+  amount - if the amount is 0 and the type is buy, sell, inventory, dividend, accumulation, save, withdraw or interests, the amount is not known
+  price - price per share. If the price per share is 0, but the amount is different, the price per share is not known.
+  price currency
+  sum - amount to be paid, including fees
+  sum currency
+  deposit - for taxation purposes sometimes the same stocksf or the same owner are kept in different deposits
+
+
   Security
   Against data damage: none. If you use sql injections to destroy your own data, you want it so.
 
@@ -127,20 +140,26 @@ void MainWindow::savetabletodb()
                 if (ui->tableWidget->item(y,0))
                 {
                     QString line="'";
-                    line.append(ui->tableWidget->item(y,0)->text());
+                    line.append(ui->tableWidget->item(y,0)->text()); // stock
                     line.append("',");
-                    line.append(type(ui->tableWidget->item(y,1)->text()));
+                    line.append(type(ui->tableWidget->item(y,1)->text())); // type
                     line.append(",'");
-                    line.append(ui->tableWidget->item(y,2)->text());
+                    line.append(ui->tableWidget->item(y,2)->text()); // date
                     line.append("',");
-                    line.append(ui->tableWidget->item(y,3)->text());
+                    line.append(ui->tableWidget->item(y,3)->text()); // amount
                     line.append(",");
-                    line.append(ui->tableWidget->item(y,4)->text());
-                    line.append(",");
-                    if (!query.exec(QString("insert into transactions VALUES (").append(line).append("'DEM',1.0,'DEM')")))
+                    line.append(ui->tableWidget->item(y,4)->text()); // price
+                    line.append(",'");
+                    line.append(ui->tableWidget->item(y,5)->text()); // price currency
+                    line.append("',");
+                    line.append(ui->tableWidget->item(y,6)->text()); // sum
+                    line.append(",'");
+                    line.append(ui->tableWidget->item(y,7)->text()); // sum currency
+                    if (!query.exec(QString("insert into transactions VALUES (").append(line).append("')")))
                     {
-                        qDebug() << "insert query failed";
+                        qDebug() << "insert query failed" << line;
                     }
+                    else qDebug() << "insert query ok" << line;
                 }
             }
         }
