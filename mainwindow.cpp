@@ -107,12 +107,18 @@ void MainWindow::load()
             else
             {
                 ui->tableWidget->setItem(0,0,new QTableWidgetItem(query.value(0).toString()));
-                while (query.next())
+                bool cont=true;
+                while (cont)
                 {
+                    qDebug() << "here";
                     for (int i=0; i<9; i++)
+                    {
                         ui->tableWidget->setItem(y,i,new QTableWidgetItem(query.value(i).toString()));
+                        qDebug() << query.value(i).toString();
+                    }
                     y++;
                     ui->tableWidget->setRowCount(ui->tableWidget->rowCount()+1);
+                    cont=query.next();
                 }
             }
         }
@@ -204,7 +210,6 @@ QString MainWindow::importcsvfile(QString filename)
     QFile* file1=new QFile(filename);
     if (file1->open(QIODevice::ReadOnly))
     {
-
         QString separator(";");
         QString filecontent=file1->readAll();
         QStringList rows=filecontent.split("\n");
